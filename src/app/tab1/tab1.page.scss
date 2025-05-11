@@ -1,0 +1,28 @@
+.destaque-container {
+  margin: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.destaque-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.destaque-content {
+  padding: 10px;
+}
+
+.destaque-content h2 {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.destaque-content p {
+  color: #666;
+  font-size: 0.95rem;
+}
+

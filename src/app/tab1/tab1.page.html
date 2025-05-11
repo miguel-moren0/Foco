@@ -1,15 +1,26 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Notícias</ion-title>
+    <ion-title>Foco</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="ngOnInit()" pullFactor="0.5" pullMin="100" pullMax="200">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-list *ngIf="!loading">
+  <!-- notícia em destaque -->
+  <div *ngIf="destaque" class="destaque-container" (click)="abrirLink(destaque.url)">
+    <img *ngIf="destaque.urlToImage" [src]="destaque.urlToImage" class="destaque-img" />
+    <div class="destaque-content">
+      <h2>{{ destaque.title }}</h2>
+      <p>{{ destaque.description }}</p>
+    </div>
+  </div>
+
+  <!-- lista normal de notícias -->
+  <ion-list>
     <ion-item *ngFor="let article of articles" lines="full" detail="true" [href]="article.url" target="_blank">
       <ion-thumbnail slot="start" *ngIf="article.urlToImage">
         <img [src]="article.urlToImage" />
@@ -21,5 +32,12 @@
     </ion-item>
   </ion-list>
 
-  <ion-spinner *ngIf="loading" name="crescent" class="ion-margin"></ion-spinner>
+  <!-- scroll infinito -->
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadArticles($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Carregando mais...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
+

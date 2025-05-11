@@ -1,17 +1,32 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-title>Buscar Notícias</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-searchbar
+    [(ngModel)]="termoBusca"
+    (ionInput)="buscarNoticias()"
+    placeholder="Digite um termo..."
+    debounce="500">
+  </ion-searchbar>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-list *ngIf="resultados.length > 0">
+    <ion-item *ngFor="let noticia of resultados" [href]="noticia.url" target="_blank" lines="full">
+      <ion-thumbnail slot="start" *ngIf="noticia.urlToImage">
+        <img [src]="noticia.urlToImage" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ noticia.title }}</h2>
+        <p>{{ noticia.source.name }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-text *ngIf="!loading && resultados.length === 0 && termoBusca">
+    <p class="ion-padding">Nenhum resultado encontrado.</p>
+  </ion-text>
+
+  <ion-spinner *ngIf="loading" class="ion-padding" name="dots"></ion-spinner>
 </ion-content>

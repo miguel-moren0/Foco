@@ -6,16 +6,30 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class NewsService {
-  private apiKey = ''; //bota a key da api aqui
+  private apiKey = ''; //cola a key da api aqui
   private baseUrl = 'https://newsapi.org/v2/everything';
 
   constructor(private http: HttpClient) {}
 
-  getTopHeadlines(): Observable<any> {
+  getTopHeadlines(page: number = 1): Observable<any> {
     const params = {
-      q: 'brasil',            // busca notícias do "brasil"
-      language: 'pt',         //  português
-      sortBy: 'publishedAt',  // o mais recentes
+      q: 'brasil',
+      language: 'pt',
+      sortBy: 'publishedAt',
+      pageSize: 10,
+      page: page,
+      apiKey: this.apiKey
+    };
+
+    return this.http.get(this.baseUrl, { params });
+  }
+
+  buscarNoticias(termo: string): Observable<any> {
+    const params = {
+      q: termo,
+      language: 'pt',
+      sortBy: 'publishedAt',
+      pageSize: 10,
       apiKey: this.apiKey
     };
 
